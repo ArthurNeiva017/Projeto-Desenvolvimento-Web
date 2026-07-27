@@ -1,9 +1,9 @@
-# Projeto de Desenvolvimento Web
+<h1 align="center">Projeto de Desenvolvimento Web</h1>
 
 
 ###
 
-<div data-importer="techs" align="left">
+<div data-importer="techs" align="center">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="37" alt="html5 logo"  />
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" height="37" alt="css3 logo"  />
@@ -21,12 +21,12 @@
 
 <h2 align="left">👥Colaboradores do Projeto</h2>
 
-| Membro                | Papel                                      |
+| Membro                | N°                                     |
 | --------------------- | ------------------------------------------ |
-| 👑 **[David Silveira Maciel](https://github.com/DavidMaciel-DEV)** |
-| 🧪 **[Arthur Barroso Neiva](https://github.com/ArthurNeiva017)** |
-| 🗃️ **[Guilherme Meyer Soares](https://github.com/guigas2407)** | 
-| 💻 **[João Vitor Belchior Estanislau](https://github.com/JoaoVitor2726)** | 
+| 👑 **[David Silveira Maciel](https://github.com/DavidMaciel-DEV)** |  1
+| 🧪 **[Arthur Barroso Neiva](https://github.com/ArthurNeiva017)** | 2
+| 🗃️ **[Guilherme Meyer Soares](https://github.com/guigas2407)** | 3
+| 💻 **[João Vitor Belchior Estanislau](https://github.com/JoaoVitor2726)** | 4
 
 ###
 
