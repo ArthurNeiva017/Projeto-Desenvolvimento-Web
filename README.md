@@ -19,3 +19,14 @@
 
 ###
 
+<h2 align="left">👥Colaboradores do Projeto</h2>
+
+| Membro                | Papel                                      |
+| --------------------- | ------------------------------------------ |
+| 👑 **[David Silveira Maciel](https://github.com/DavidMaciel-DEV)** |
+| 🧪 **[Arthur Barroso Neiva](https://github.com/ArthurNeiva017)** |
+| 🗃️ **[Guilherme Meyer Soares](https://github.com/guigas2407)** | 
+| 💻 **[João Vitor Belchior Estanislau](https://github.com/JoaoVitor2726)** | 
+
+###
+
