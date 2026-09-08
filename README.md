@@ -6,11 +6,11 @@
 [![Versão](https://img.shields.io/badge/versão-[0.1.0]-blue)]()
 [![Licença](https://img.shields.io/badge/licença-[acadêmica]-lightgrey)]()
 
-**Instituição:** Universidade CEUB 
-**Curso:** Análise e Desenvolvimento de Sistemas  
-**Disciplina:** Desenvolvimento Web
-**Turma / Semestre:** 2026.2
-**Professor(a):** Felippe Pires Ferreira
+**Instituição:** Universidade CEUB<br> 
+**Curso:** Análise e Desenvolvimento de Sistemas<br>  
+**Disciplina:** Desenvolvimento Web<br>
+**Turma / Semestre:** 2026.2<br>
+**Professor(a):** Felippe Pires Ferreira<br>
 **Status do projeto:** [Protótipo / MVP / Em desenvolvimento / Concluído]
 
 ---
