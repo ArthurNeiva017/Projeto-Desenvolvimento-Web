@@ -197,16 +197,15 @@ Documentação completa da API: [link para Swagger, Postman ou `docs/api.md`]
 
 ## 7. Participantes
 
-*Informe nome completo, função no grupo e, se houver, o identificador acadêmico (matrícula).*
-
 | Nome | Matrícula | Função no projeto |
-| --- | --- | --- |
-| [Nome completo] | [000000] | [Ex.: coordenação / backend / frontend / testes / documentação] |
-| [Nome completo] | [000000] | [Ex.: backend] |
-| [Nome completo] | [000000] | [Ex.: frontend] |
-| [Nome completo] | [000000] | [Ex.: testes e documentação] |
+|---|---|---|
+| Arthur Barroso Neiva | A informar | FrontEnd |
+| David Silveira Maciel | A informar | Documentação e Testes |
+| Guilherme Meyer Soares | A informar | BackEnd e FrontEnd |
+| João Vitor Belchior Estanislau | A informar | Banco de Dados e BackEnd |
 
-**Professor(a) responsável:** [Nome completo]
+
+**Professor(a) responsável:** Felippe Pires Ferreira
 
 ---
 
