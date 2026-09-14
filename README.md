@@ -1,17 +1,13 @@
-# [Nome do Projeto]
+# 🎬 CineTrack
 
-> Substitua os trechos entre colchetes `[ ]` pelas informações reais do trabalho. Remova esta nota e as demais orientações em *itálico* antes da entrega.
+> Plataforma web para gerenciamento pessoal de filmes e séries.
 
-[![Status](https://img.shields.io/badge/status-[em_desenvolvimento]-yellow)]()
-[![Versão](https://img.shields.io/badge/versão-[0.1.0]-blue)]()
-[![Licença](https://img.shields.io/badge/licença-[acadêmica]-lightgrey)]()
-
-**Instituição:** Universidade CEUB<br> 
-**Curso:** Análise e Desenvolvimento de Sistemas<br>
-**Disciplina:** Desenvolvimento Web<br>
-**Turma / Semestre:** 2026.2<br>
-**Professor(a):** Felippe Pires Ferreira<br>
-**Status do projeto:** [Protótipo / MVP / Em desenvolvimento / Concluído]
+**Instituição:** Centro Universitário de Brasília (UniCEUB)  
+**Curso:** Análise e Desenvolvimento de Sistemas (ADS)  
+**Disciplina:** Desenvolvimento Web  
+**Turma / Semestre:** 2026.2  
+**Professor:** Felippe Pires Ferreira  
+**Status do projeto:** Em desenvolvimento
 
 ---
 
@@ -37,47 +33,63 @@
 
 ## 1. Descrição do projeto
 
-*Apresente o contexto, o problema e a solução proposta. Use linguagem objetiva (dois a quatro parágrafos).*
+O **CineTrack** é uma aplicação web voltada para a organização pessoal de filmes e séries. A plataforma permitirá que usuários mantenham uma biblioteca com os títulos que desejam assistir, estão assistindo ou já assistiram.
 
-[Descreva o que o sistema faz, para quem ele se destina e qual problema ele resolve.]
+A aplicação busca resolver a dificuldade de organizar conteúdos de diferentes tipos em um único lugar. Além do cadastro manual, o sistema utilizará uma API externa de filmes e séries para auxiliar na consulta de informações dos títulos.
+
+O CineTrack também permitirá pesquisar conteúdos cadastrados, registrar avaliações e acompanhar informações da biblioteca por meio de indicadores e relatórios.
 
 ### Objetivos
 
-*Liste os objetivos gerais e específicos do projeto.*
+**Objetivo geral:**
 
-- **Objetivo geral:** [Ex.: desenvolver uma aplicação web para gerenciar reservas de laboratórios.]
-- **Objetivos específicos:**
-  - [Ex.: permitir cadastro e autenticação de usuários.]
-  - [Ex.: registrar e consultar reservas por data e laboratório.]
-  - [Ex.: gerar relatórios de ocupação.]
+Desenvolver uma aplicação web utilizando Python e Django que permita ao usuário organizar e acompanhar filmes e séries em uma biblioteca pessoal.
+
+**Objetivos específicos:**
+
+- Permitir o cadastro e gerenciamento de filmes e séries.
+- Permitir a classificação dos títulos por status.
+- Permitir a pesquisa de títulos cadastrados.
+- Permitir que o usuário registre notas e comentários.
+- Integrar dados de filmes e séries utilizando uma API externa.
+- Apresentar indicadores e relatórios sobre a biblioteca.
+- Disponibilizar parte dos dados por meio de uma API REST própria.
+- Desenvolver uma interface responsiva para computadores e dispositivos móveis.
 
 ### Público-alvo
 
-- [Ex.: estudantes da instituição]
-- [Ex.: professores responsáveis pelos laboratórios]
-- [Ex.: equipe administrativa]
+- Pessoas que assistem filmes e séries com frequência.
+- Usuários que desejam organizar os conteúdos que pretendem assistir.
+- Usuários que desejam manter um histórico dos títulos já assistidos.
 
 ---
 
 ## 2. Funcionalidades
 
-*Liste as funções implementadas (ou previstas) no sistema. Marque o status de cada uma.*
-
 | Funcionalidade | Descrição | Status |
-| --- | --- | --- |
-| [Ex.: Autenticação] | [Ex.: login, logout e recuperação de senha] | [Implementada / Em andamento / Planejada] |
-| [Ex.: Cadastro de usuários] | [Ex.: criação e edição de perfis] | [Implementada / Em andamento / Planejada] |
-| [Ex.: Relatórios] | [Ex.: exportação em PDF] | [Implementada / Em andamento / Planejada] |
+|---|---|---|
+| Autenticação | Login e logout de usuários | Planejada |
+| Biblioteca pessoal | Visualização dos filmes e séries adicionados pelo usuário | Planejada |
+| Cadastro de títulos | Adicionar filmes e séries à biblioteca | Planejada |
+| Edição de títulos | Alterar informações de registros existentes | Planejada |
+| Exclusão de títulos | Remover registros da biblioteca | Planejada |
+| Busca | Pesquisar filmes e séries cadastrados | Planejada |
+| Filtros | Filtrar títulos por tipo, gênero ou status | Planejada |
+| Status | Classificar títulos como "Quero assistir", "Assistindo" ou "Assistido" | Planejada |
+| Avaliação | Registrar nota e comentário sobre um título | Planejada |
+| Dashboard | Apresentar indicadores gerais da biblioteca | Planejada |
+| Relatórios | Exibir dados consolidados sobre filmes e séries cadastrados | Planejada |
+| API REST própria | Disponibilizar dados selecionados da aplicação em JSON | Planejada |
+| Integração externa | Consultar informações de filmes e séries em uma API externa | Planejada |
 
 ### Requisitos não funcionais
 
-*Informe restrições de qualidade, quando existirem.*
-
-- **Desempenho:** [Ex.: respostas da API em menos de 2 segundos]
-- **Segurança:** [Ex.: senhas armazenadas com hash; HTTPS em produção]
-- **Usabilidade:** [Ex.: interface responsiva para desktop e celular]
-- **Disponibilidade:** [Ex.: uso em ambiente local / laboratório da disciplina]
-
+- **Desempenho:** a aplicação deverá responder às operações comuns de forma adequada para uso normal.
+- **Segurança:** senhas deverão ser armazenadas de forma segura pelo mecanismo de autenticação do Django e a aplicação deverá utilizar HTTPS em produção.
+- **Usabilidade:** a interface deverá ser simples, intuitiva e de fácil utilização.
+- **Responsividade:** as páginas deverão funcionar adequadamente em computadores e dispositivos móveis.
+- **Disponibilidade:** a versão final deverá permanecer publicada durante o período de avaliação.
+- **Manutenibilidade:** o código deverá seguir uma organização compatível com a estrutura de projetos Django.
 ---
 
 ## 3. Demonstração
@@ -97,17 +109,21 @@
 
 ## 4. Tecnologias utilizadas
 
-*Informe as tecnologias de fato usadas no projeto. Remova as linhas que não se aplicarem.*
+As tecnologias previstas inicialmente são:
 
 | Camada | Tecnologia | Versão |
-| --- | --- | --- |
-| Linguagem | [Ex.: Python, Java, TypeScript] | [Ex.: 3.12] |
-| Frontend | [Ex.: HTML, CSS, React] | [Ex.: 18] |
-| Backend | [Ex.: Flask, Spring Boot, Node.js] | [Ex.: 3.x] |
-| Banco de dados | [Ex.: PostgreSQL, SQLite, MongoDB] | [Ex.: 16] |
-| Testes | [Ex.: pytest, JUnit, Jest] | [Ex.: 8] |
-| Infraestrutura | [Ex.: Docker, GitHub Actions] | — |
-| Outras ferramentas | [Ex.: Git, Figma, Postman] | — |
+|---|---|---|
+| Linguagem | Python | A definir |
+| Frontend | HTML, CSS e JavaScript | — |
+| Framework CSS | Bootstrap | A definir |
+| Backend | Django | A definir |
+| API REST | Django REST Framework | A definir |
+| Banco de dados | SQLite / banco relacional compatível com produção | A definir |
+| API externa | TMDB API | — |
+| Controle de versão | Git e GitHub | — |
+| Testes de API | Postman | — |
+
+
 
 ---
 
