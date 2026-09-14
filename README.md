@@ -115,7 +115,6 @@ As tecnologias previstas inicialmente são:
 |---|---|---|
 | Linguagem | Python | A definir |
 | Frontend | HTML, CSS e JavaScript | — |
-| Framework CSS | Bootstrap | A definir |
 | Backend | Django | A definir |
 | API REST | Django REST Framework | A definir |
 | Banco de dados | SQLite / banco relacional compatível com produção | A definir |
