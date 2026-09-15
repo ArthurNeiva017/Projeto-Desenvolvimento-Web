@@ -198,7 +198,7 @@ Documentação completa da API: [link para Swagger, Postman ou `docs/api.md`]
 
 | Nome | Matrícula | Função no projeto |
 |---|---|---|
-| Arthur Barroso Neiva | A informar | FrontEnd e BackEnd |
+| Arthur Barroso Neiva | 22510032 | FrontEnd e BackEnd |
 | David Silveira Maciel | A informar | Documentação e Testes |
 | Guilherme Meyer Soares | 22504716 | BackEnd e FrontEnd |
 | João Vitor Belchior Estanislau | A informar | Banco de Dados e BackEnd |
