@@ -200,7 +200,7 @@ Documentação completa da API: [link para Swagger, Postman ou `docs/api.md`]
 |---|---|---|
 | Arthur Barroso Neiva | A informar | FrontEnd |
 | David Silveira Maciel | A informar | Documentação e Testes |
-| Guilherme Meyer Soares | A informar | BackEnd e FrontEnd |
+| Guilherme Meyer Soares | 22504716 | BackEnd e FrontEnd |
 | João Vitor Belchior Estanislau | A informar | Banco de Dados e BackEnd |
 
 
