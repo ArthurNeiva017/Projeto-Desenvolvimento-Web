@@ -365,14 +365,6 @@ Use mensagens curtas e no imperativo, por exemplo:
 
 Este material destina-se a fins educacionais. Verifique com a disciplina se o código pode ser reutilizado fora do curso.
 
-### Documentação complementar
-
-- Índice da pasta `docs/`: [`docs/README.pdf`](docs/README.pdf)
-- Casos de uso (diagrama + especificações): [`docs/modelagem/casos-de-uso/especificacoes-casos-de-uso.pdf`](docs/modelagem/casos-de-uso/especificacoes-casos-de-uso.pdf)
-- Diagrama de classes: [`docs/modelagem/classes/diagrama-de-classes.pdf`](docs/modelagem/classes/diagrama-de-classes.pdf)
-- Modelo conceitual (ER): [`docs/modelagem/banco-de-dados/diagrama-er.pdf`](docs/modelagem/banco-de-dados/diagrama-er.pdf)
-- Modelo lógico: [`docs/modelagem/banco-de-dados/modelo-logico.pdf`](docs/modelagem/banco-de-dados/modelo-logico.pdf)
-- Apresentação: [`docs/apresentacao.pdf`](docs/)
 
 ### Referências
 
