@@ -1,0 +1,133 @@
+/* ==========================================================
+   CineTrack — identidade visual
+   Paleta:
+     --ct-fundo      #12141c  (grafite, fundo de sala de cinema)
+     --ct-superficie #1c1f2b  (cartões e painéis)
+     --ct-primaria   #f5b301  (âmbar, cor do ingresso / destaque)
+     --ct-secundaria #2ec4b6  (azul-petróleo, ações secundárias)
+     --ct-texto      #e8e9ed
+   Tipografia: Poppins (títulos) e Inter (texto)
+   ========================================================== */
+:root {
+    --ct-fundo: #12141c;
+    --ct-superficie: #1c1f2b;
+    --ct-borda: #2b2f3f;
+    --ct-primaria: #f5b301;
+    --ct-primaria-escura: #c98f00;
+    --ct-secundaria: #2ec4b6;
+    --ct-texto: #e8e9ed;
+    --ct-texto-suave: #a3a7b7;
+}
+
+body {
+    background-color: var(--ct-fundo);
+    color: var(--ct-texto);
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, .ct-brand {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+a { color: var(--ct-primaria); }
+a:hover { color: var(--ct-primaria-escura); }
+
+/* Navegação */
+.ct-navbar {
+    background-color: var(--ct-superficie);
+    border-bottom: 1px solid var(--ct-borda);
+}
+.ct-navbar .nav-link { color: var(--ct-texto); }
+.ct-navbar .nav-link:hover { color: var(--ct-primaria); }
+.ct-brand { font-size: 1.35rem; color: var(--ct-texto); }
+.ct-brand span { color: var(--ct-primaria); }
+
+/* Botão principal */
+.btn-ct {
+    background-color: var(--ct-primaria);
+    border-color: var(--ct-primaria);
+    color: #1a1a1a;
+    font-weight: 600;
+}
+.btn-ct:hover, .btn-ct:focus {
+    background-color: var(--ct-primaria-escura);
+    border-color: var(--ct-primaria-escura);
+    color: #1a1a1a;
+}
+.btn-ct-secundario {
+    border-color: var(--ct-secundaria);
+    color: var(--ct-secundaria);
+}
+.btn-ct-secundario:hover {
+    background-color: var(--ct-secundaria);
+    color: #12141c;
+}
+
+/* Cartões e painéis */
+.ct-card {
+    background-color: var(--ct-superficie);
+    border: 1px solid var(--ct-borda);
+    border-radius: 12px;
+}
+.ct-hero {
+    background: linear-gradient(135deg, var(--ct-superficie), #262a3a);
+    border: 1px solid var(--ct-borda);
+    border-radius: 16px;
+}
+.text-suave { color: var(--ct-texto-suave); }
+
+/* Formulários */
+.form-container {
+    max-width: 560px;
+    margin: 0 auto;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--ct-primaria);
+    box-shadow: 0 0 0 .2rem rgba(245, 179, 1, .25);
+}
+.errorlist {
+    list-style: none;
+    padding-left: 0;
+    margin: .25rem 0 0;
+    color: #ff6b6b;
+    font-size: .875rem;
+}
+
+/* Mensagens */
+.messages { margin-bottom: 1rem; }
+
+/* Rodapé */
+.ct-footer {
+    background-color: var(--ct-superficie);
+    border-top: 1px solid var(--ct-borda);
+    color: var(--ct-texto-suave);
+}
+
+/* Pôster dos títulos */
+.ct-poster {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: var(--ct-borda);
+}
+.ct-poster-vazio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ct-texto-suave);
+    font-size: .875rem;
+}
+
+/* Etiquetas de status */
+.badge-quero_assistir { background-color: #4c5674; }
+.badge-assistindo { background-color: var(--ct-secundaria); color: #12141c; }
+.badge-assistido { background-color: var(--ct-primaria); color: #12141c; }
+
+/* Impressão (relatórios) */
+@media print {
+    .ct-navbar, .ct-footer, .no-print, .messages { display: none !important; }
+    body, .ct-card { background: #fff !important; color: #000 !important; }
+    .table { color: #000 !important; }
+}

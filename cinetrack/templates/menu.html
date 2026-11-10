@@ -1,0 +1,32 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg ct-navbar">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'index' %}">
+            <img src="{% static 'img/logo.svg' %}" alt="" width="36" height="36">
+            <span class="ct-brand">Cine<span>Track</span></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Início</a></li>
+            </ul>
+            <ul class="navbar-nav align-items-lg-center gap-2">
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><span class="nav-link disabled">Olá, {{ user.username }}</span></li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-sm">Sair</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Entrar</a></li>
+                    <li class="nav-item"><a class="btn btn-ct btn-sm" href="{% url 'register' %}">Criar conta</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

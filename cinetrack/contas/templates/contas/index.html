@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %}Início{% endblock %}
+{% block conteudo %}
+<section class="ct-hero p-4 p-md-5 mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-md-8">
+            <h1 class="display-5">Sua biblioteca de filmes e séries em um só lugar</h1>
+            <p class="lead text-suave mt-3">
+                Organize o que você quer assistir, acompanhe o que está assistindo e
+                avalie o que já viu. Busque títulos no TMDB e veja relatórios da sua biblioteca.
+            </p>
+            {% if user.is_authenticated %}
+                <p class="mt-4 mb-0">Olá, <strong>{{ user.username }}</strong>! Use o menu para acessar sua biblioteca.</p>
+            {% else %}
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a href="{% url 'register' %}" class="btn btn-ct btn-lg">Criar conta grátis</a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">Já tenho conta</a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="{% static 'img/logo.svg' %}" alt="Logotipo do CineTrack" class="img-fluid" style="max-width: 200px;">
+        </div>
+    </div>
+</section>
+
+<section class="row g-3">
+    <div class="col-md-4">
+        <div class="ct-card p-4 h-100">
+            <h2 class="h5">Organize</h2>
+            <p class="text-suave mb-0">Classifique cada título como “Quero assistir”, “Assistindo” ou “Assistido”.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="ct-card p-4 h-100">
+            <h2 class="h5">Descubra</h2>
+            <p class="text-suave mb-0">Pesquise filmes e séries no TMDB e adicione à biblioteca com um clique.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="ct-card p-4 h-100">
+            <h2 class="h5">Acompanhe</h2>
+            <p class="text-suave mb-0">Veja indicadores, notas médias e relatórios exportáveis da sua biblioteca.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

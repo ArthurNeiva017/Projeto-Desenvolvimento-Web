@@ -1,0 +1,31 @@
+# Ambiente virtual
+venv/
+.venv/
+env/
+
+# Segredos e variáveis de ambiente (NUNCA versionar)
+.env
+*.env
+!.env.example
+
+# Banco de dados local
+*.sqlite3
+db.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*.log
+
+# Arquivos estáticos coletados (gerados pelo collectstatic)
+staticfiles/
+
+# IDEs e sistema operacional
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Relatórios brutos temporários
+.coverage
+htmlcov/
