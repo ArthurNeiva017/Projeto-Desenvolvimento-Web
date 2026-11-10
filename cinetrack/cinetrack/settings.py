@@ -1,26 +1,14 @@
-"""
-Configurações do projeto CineTrack.
-
-As informações sensíveis (SECRET_KEY e a chave do TMDB) são lidas do arquivo
-.env, que não é versionado. Use o arquivo .env.example como modelo.
-"""
-
 import os
 from pathlib import Path
 
 from dotenv import load_dotenv
 
-# Caminho base do projeto (pasta que contém o manage.py)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Carrega as variáveis do arquivo .env (se existir)
+
 load_dotenv(BASE_DIR / '.env')
 
-
-# ---------------------------------------------------------------------------
-# Segurança
-# ---------------------------------------------------------------------------
-# A chave secreta vem do .env. O valor padrão serve apenas para rodar localmente.
 SECRET_KEY = os.getenv('SECRET_KEY', 'chave-apenas-para-desenvolvimento-local')
 
 # O projeto roda apenas localmente (sem deploy)
@@ -28,10 +16,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-
-# ---------------------------------------------------------------------------
-# Aplicativos
-# ---------------------------------------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +23,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Apps do CineTrack
     'contas',
 ]
 
@@ -72,10 +55,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cinetrack.wsgi.application'
 
-
-# ---------------------------------------------------------------------------
-# Banco de dados (SQLite)
-# ---------------------------------------------------------------------------
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -83,10 +62,6 @@ DATABASES = {
     }
 }
 
-
-# ---------------------------------------------------------------------------
-# Validação de senha
-# ---------------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -95,18 +70,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# ---------------------------------------------------------------------------
-# Internacionalização
-# ---------------------------------------------------------------------------
+
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
 
-# ---------------------------------------------------------------------------
-# Arquivos estáticos (CSS, JavaScript, imagens)
-# ---------------------------------------------------------------------------
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
@@ -115,17 +85,11 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# ---------------------------------------------------------------------------
-# Autenticação
-# ---------------------------------------------------------------------------
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'login'
 
 
-# ---------------------------------------------------------------------------
-# E-mail (exibido no console)
-# ---------------------------------------------------------------------------
 MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
