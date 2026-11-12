@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block titulo %}Minha biblioteca{% endblock %}
+{% block conteudo %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <h1 class="h2 mb-0">Minha biblioteca</h1>
+    <a href="{% url 'criar_item' %}" class="btn btn-ct">+ Cadastrar título</a>
+</div>
+
+<!-- Busca e filtros (UC05) -->
+<form method="get" class="ct-card p-3 mb-4">
+    <div class="row g-2 align-items-end">
+        <div class="col-12 col-md-4">
+            {{ form.q.label_tag }}
+            {{ form.q }}
+        </div>
+        <div class="col-6 col-md-2">
+            {{ form.status.label_tag }}
+            {{ form.status }}
+        </div>
+        <div class="col-6 col-md-2">
+            {{ form.tipo.label_tag }}
+            {{ form.tipo }}
+        </div>
+        <div class="col-12 col-md-2">
+            {{ form.genero.label_tag }}
+            {{ form.genero }}
+        </div>
+        <div class="col-12 col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-ct flex-grow-1">Buscar</button>
+            {% if filtrando %}<a href="{% url 'lista_biblioteca' %}" class="btn btn-outline-light">Limpar</a>{% endif %}
+        </div>
+    </div>
+</form>
+
+<p class="text-suave">{{ itens|length }} título{{ itens|length|pluralize }} encontrado{{ itens|length|pluralize }}.</p>
+
+<div class="row g-3">
+    {% for item in itens %}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="ct-card p-2 h-100 d-flex flex-column">
+                <a href="{% url 'detalhe_item' item.id %}">
+                    {% if item.titulo.poster_url %}
+                        <img src="{{ item.titulo.poster_url }}" alt="Pôster de {{ item.titulo.nome }}" class="ct-poster" loading="lazy">
+                    {% else %}
+                        <div class="ct-poster ct-poster-vazio">Sem pôster</div>
+                    {% endif %}
+                </a>
+                <div class="pt-2 d-flex flex-column flex-grow-1">
+                    <a href="{% url 'detalhe_item' item.id %}" class="fw-semibold text-decoration-none text-reset">{{ item.titulo.nome }}</a>
+                    <small class="text-suave">{{ item.titulo.get_tipo_display }}{% if item.titulo.ano_lancamento %} · {{ item.titulo.ano_lancamento }}{% endif %} · {{ item.titulo.genero }}</small>
+                    <div class="mt-auto pt-2">
+                        <span class="badge badge-{{ item.status }}">{{ item.get_status_display }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="ct-card p-4 text-center">
+                {% if filtrando %}
+                    <p class="mb-0">Nenhum título encontrado com esses filtros.</p>
+                {% else %}
+                    <!-- UC03 - 2a: biblioteca vazia -->
+                    <p>Sua biblioteca ainda está vazia.</p>
+                    <a href="{% url 'criar_item' %}" class="btn btn-ct">Adicionar o primeiro título</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

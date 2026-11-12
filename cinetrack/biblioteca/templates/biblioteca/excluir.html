@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block titulo %}Remover título{% endblock %}
+{% block conteudo %}
+<div class="form-container ct-card p-4 p-md-5">
+    <h2>Remover título</h2>
+    <p>Tem certeza que deseja remover <strong>{{ item.titulo.nome }}</strong> da sua biblioteca?</p>
+    {% if item.avaliacao %}
+        <p class="text-suave">A sua avaliação deste título também será removida.</p>
+    {% endif %}
+    <form method="post" class="d-flex gap-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, remover</button>
+        <a href="{% url 'detalhe_item' item.id %}" class="btn btn-outline-light">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

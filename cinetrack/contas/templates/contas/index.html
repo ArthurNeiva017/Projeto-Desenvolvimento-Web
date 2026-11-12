@@ -11,7 +11,8 @@
                 avalie o que já viu. Busque títulos no TMDB e veja relatórios da sua biblioteca.
             </p>
             {% if user.is_authenticated %}
-                <p class="mt-4 mb-0">Olá, <strong>{{ user.username }}</strong>! Use o menu para acessar sua biblioteca.</p>
+                <p class="mt-4">Olá, <strong>{{ user.username }}</strong>!</p>
+                <a href="{% url 'lista_biblioteca' %}" class="btn btn-ct btn-lg">Abrir minha biblioteca</a>
             {% else %}
                 <div class="d-flex flex-wrap gap-2 mt-4">
                     <a href="{% url 'register' %}" class="btn btn-ct btn-lg">Criar conta grátis</a>

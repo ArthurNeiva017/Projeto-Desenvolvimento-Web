@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}{% if editar %}Editar título{% else %}Cadastrar título{% endif %}{% endblock %}
+{% block conteudo %}
+<div class="form-container ct-card p-4 p-md-5">
+    <h2 class="mb-1">{% if editar %}Editar título{% else %}Cadastrar título{% endif %}</h2>
+    {% if editar and item.titulo.importado_tmdb %}
+        <p class="text-suave">“{{ item.titulo.nome }}” foi importado do TMDB, então apenas o status pode ser alterado.</p>
+    {% else %}
+        <p class="text-suave">Preencha os dados do filme ou da série.</p>
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    {{ field.errors }}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-ct">Salvar</button>
+            <a href="{% if editar %}{% url 'detalhe_item' item.id %}{% else %}{% url 'lista_biblioteca' %}{% endif %}" class="btn btn-outline-light">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

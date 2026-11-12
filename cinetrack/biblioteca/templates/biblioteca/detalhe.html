@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block titulo %}{{ item.titulo.nome }}{% endblock %}
+{% block conteudo %}
+<a href="{% url 'lista_biblioteca' %}" class="d-inline-block mb-3">&larr; Voltar para a biblioteca</a>
+
+<div class="ct-card p-4">
+    <div class="row g-4">
+        <div class="col-12 col-sm-4 col-lg-3">
+            {% if item.titulo.poster_url %}
+                <img src="{{ item.titulo.poster_url }}" alt="Pôster de {{ item.titulo.nome }}" class="ct-poster">
+            {% else %}
+                <div class="ct-poster ct-poster-vazio">Sem pôster</div>
+            {% endif %}
+        </div>
+        <div class="col-12 col-sm-8 col-lg-9">
+            <h1 class="h2">{{ item.titulo.nome }}</h1>
+            <p class="text-suave">
+                {{ item.titulo.get_tipo_display }}
+                {% if item.titulo.ano_lancamento %} · {{ item.titulo.ano_lancamento }}{% endif %}
+                · {{ item.titulo.genero }}
+                {% if item.titulo.importado_tmdb %} · <span class="badge text-bg-secondary">Importado do TMDB</span>{% endif %}
+            </p>
+            <p><span class="badge badge-{{ item.status }} fs-6">{{ item.get_status_display }}</span></p>
+
+            <h2 class="h5 mt-4">Sinopse</h2>
+            <p>{{ item.titulo.sinopse|default:"Sinopse não informada." }}</p>
+
+            <h2 class="h5 mt-4">Minha avaliação</h2>
+            {% if item.avaliacao %}
+                <p class="mb-1"><strong>Nota:</strong> {{ item.avaliacao.nota }}/10</p>
+                <p>{{ item.avaliacao.comentario|default:"Sem comentário." }}</p>
+            {% else %}
+                <p class="text-suave">Você ainda não avaliou este título.</p>
+            {% endif %}
+
+            <p class="small text-suave mt-4 mb-3">
+                Adicionado em {{ item.adicionado_em|date:"d/m/Y" }} · Atualizado em {{ item.atualizado_em|date:"d/m/Y H:i" }}
+            </p>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{% url 'editar_item' item.id %}" class="btn btn-ct">Editar</a>
+                <a href="{% url 'excluir_item' item.id %}" class="btn btn-outline-danger">Remover</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

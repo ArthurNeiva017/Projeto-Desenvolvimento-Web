@@ -12,6 +12,9 @@
         <div class="collapse navbar-collapse" id="menuPrincipal">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Início</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_biblioteca' %}">Minha biblioteca</a></li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav align-items-lg-center gap-2">
                 {% if user.is_authenticated %}
