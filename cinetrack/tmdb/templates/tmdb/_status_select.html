@@ -1,0 +1,5 @@
+<select name="status" class="form-select form-select-sm" aria-label="Status inicial">
+    {% for valor, rotulo in status_choices %}
+        <option value="{{ valor }}">{{ rotulo }}</option>
+    {% endfor %}
+</select>

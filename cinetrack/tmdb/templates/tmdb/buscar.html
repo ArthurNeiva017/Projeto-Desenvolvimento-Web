@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block titulo %}Buscar títulos{% endblock %}
+{% block conteudo %}
+<h1 class="h2 mb-3">Buscar filmes e séries</h1>
+<p class="text-suave">Pesquise no catálogo do CineTrack e no TMDB e adicione o título à sua biblioteca.</p>
+
+<form method="get" class="ct-card p-3 mb-4" novalidate>
+    <div class="row g-2 align-items-end">
+        <div class="col-12 col-md-6">
+            {{ form.q.label_tag }}
+            {{ form.q }}
+            {{ form.q.errors }}
+        </div>
+        <div class="col-8 col-md-3">
+            {{ form.tipo.label_tag }}
+            {{ form.tipo }}
+        </div>
+        <div class="col-4 col-md-3">
+            <button type="submit" class="btn btn-ct w-100">Buscar</button>
+        </div>
+    </div>
+</form>
+
+{% if buscou %}
+    {% if resultados_locais %}
+        <h2 class="h5 mb-3">No catálogo do CineTrack</h2>
+        <div class="row g-3 mb-4">
+            {% for titulo in resultados_locais %}
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="ct-card p-2 h-100 d-flex flex-column">
+                        {% if titulo.poster_url %}
+                            <img src="{{ titulo.poster_url }}" alt="Pôster de {{ titulo.nome }}" class="ct-poster" loading="lazy">
+                        {% else %}
+                            <div class="ct-poster ct-poster-vazio">Sem pôster</div>
+                        {% endif %}
+                        <div class="pt-2 d-flex flex-column flex-grow-1">
+                            <strong>{{ titulo.nome }}</strong>
+                            <small class="text-suave">{{ titulo.get_tipo_display }}{% if titulo.ano_lancamento %} · {{ titulo.ano_lancamento }}{% endif %}</small>
+                            <div class="mt-auto pt-2">
+                                {% if titulo.na_biblioteca %}
+                                    <span class="badge text-bg-success">Já está na biblioteca</span>
+                                {% else %}
+                                    <form method="post" action="{% url 'adicionar_do_catalogo' %}" class="d-flex flex-column gap-1">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="titulo_id" value="{{ titulo.id }}">
+                                        {% include "tmdb/_status_select.html" %}
+                                        <button type="submit" class="btn btn-ct btn-sm">Adicionar</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if not erro_tmdb %}
+        <h2 class="h5 mb-3">Resultados do TMDB</h2>
+        <div class="row g-3">
+            {% for r in resultados_tmdb %}
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="ct-card p-2 h-100 d-flex flex-column">
+                        {% if r.poster_url %}
+                            <img src="{{ r.poster_url }}" alt="Pôster de {{ r.nome }}" class="ct-poster" loading="lazy">
+                        {% else %}
+                            <div class="ct-poster ct-poster-vazio">Sem pôster</div>
+                        {% endif %}
+                        <div class="pt-2 d-flex flex-column flex-grow-1">
+                            <strong>{{ r.nome }}</strong>
+                            <small class="text-suave">{% if r.tipo == 'filme' %}Filme{% else %}Série{% endif %}{% if r.ano_lancamento %} · {{ r.ano_lancamento }}{% endif %}</small>
+                            <div class="mt-auto pt-2">
+                                {% if r.na_biblioteca %}
+                                    <span class="badge text-bg-success">Já está na biblioteca</span>
+                                {% else %}
+                                    <form method="post" action="{% url 'importar_tmdb' %}" class="d-flex flex-column gap-1">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="tmdb_id" value="{{ r.tmdb_id }}">
+                                        <input type="hidden" name="tipo" value="{{ r.tipo }}">
+                                        {% include "tmdb/_status_select.html" %}
+                                        <button type="submit" class="btn btn-ct btn-sm">Adicionar</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                {% if not resultados_locais %}
+                    <!-- UC05 - 3a: nenhum resultado -->
+                    <div class="col-12">
+                        <div class="ct-card p-4 text-center">
+                            <p>Nenhum título encontrado. Tente outro termo ou faça o cadastro manual.</p>
+                            <a href="{% url 'criar_item' %}" class="btn btn-ct-secundario btn-outline-light">Cadastrar manualmente</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="ct-card p-4 text-center">
+            <p class="mb-2">Os resultados do TMDB estão indisponíveis agora.</p>
+            <a href="{% url 'criar_item' %}" class="btn btn-ct">Cadastrar manualmente</a>
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock %}
