@@ -3,7 +3,10 @@
 {% block conteudo %}
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <h1 class="h2 mb-0">Minha biblioteca</h1>
-    <a href="{% url 'criar_item' %}" class="btn btn-ct">+ Cadastrar título</a>
+    <div class="d-flex gap-2">
+        <a href="{% url 'buscar_tmdb' %}" class="btn btn-ct">Buscar no TMDB</a>
+        <a href="{% url 'criar_item' %}" class="btn btn-outline-light">+ Cadastro manual</a>
+    </div>
 </div>
 
 <!-- Busca e filtros (UC05) -->

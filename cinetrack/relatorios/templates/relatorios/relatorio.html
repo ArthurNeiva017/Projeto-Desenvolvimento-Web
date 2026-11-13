@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block titulo %}Relatório da biblioteca{% endblock %}
+{% block conteudo %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h2 mb-0">Relatório da biblioteca</h1>
+    <div class="d-flex gap-2 no-print">
+        <button type="button" class="btn btn-outline-light" onclick="window.print()">Imprimir / PDF</button>
+        <a href="{% url 'relatorio_csv' %}{% if query_string %}?{{ query_string }}{% endif %}" class="btn btn-ct">Exportar CSV</a>
+    </div>
+</div>
+<p class="text-suave">Usuário: {{ user.username }} · Gerado em {{ gerado_em|date:"d/m/Y" }}</p>
+
+<form method="get" class="ct-card p-3 mb-4 no-print" novalidate>
+    {% if form.non_field_errors %}<div class="text-danger small mb-2">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+    <div class="row g-2 align-items-end">
+        <div class="col-6 col-md-2">{{ form.status.label_tag }}{{ form.status }}</div>
+        <div class="col-6 col-md-2">{{ form.tipo.label_tag }}{{ form.tipo }}</div>
+        <div class="col-12 col-md-2">{{ form.genero.label_tag }}{{ form.genero }}</div>
+        <div class="col-6 col-md-2">{{ form.data_inicio.label_tag }}{{ form.data_inicio }}</div>
+        <div class="col-6 col-md-2">{{ form.data_fim.label_tag }}{{ form.data_fim }}</div>
+        <div class="col-12 col-md-2"><button type="submit" class="btn btn-ct w-100">Filtrar</button></div>
+    </div>
+</form>
+
+<!-- Indicadores consolidados -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-2"><div class="ct-card p-3 text-center"><div class="small text-suave">Total</div><div class="h4 mb-0">{{ ind.total }}</div></div></div>
+    <div class="col-6 col-md-2"><div class="ct-card p-3 text-center"><div class="small text-suave">Quero assistir</div><div class="h4 mb-0">{{ ind.quero_assistir }}</div></div></div>
+    <div class="col-6 col-md-2"><div class="ct-card p-3 text-center"><div class="small text-suave">Assistindo</div><div class="h4 mb-0">{{ ind.assistindo }}</div></div></div>
+    <div class="col-6 col-md-2"><div class="ct-card p-3 text-center"><div class="small text-suave">Assistidos</div><div class="h4 mb-0">{{ ind.assistido }}</div></div></div>
+    <div class="col-6 col-md-2"><div class="ct-card p-3 text-center"><div class="small text-suave">Avaliados</div><div class="h4 mb-0">{{ ind.avaliados }}</div></div></div>
+    <div class="col-6 col-md-2"><div class="ct-card p-3 text-center"><div class="small text-suave">Nota média</div><div class="h4 mb-0">{{ ind.nota_media|default:"–" }}</div></div></div>
+</div>
+
+<div class="ct-card p-2 table-responsive">
+    <table class="table table-hover align-middle mb-0">
+        <thead>
+            <tr>
+                <th>Título</th><th>Tipo</th><th>Gênero</th><th>Ano</th><th>Status</th><th>Nota</th><th>Adicionado em</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens %}
+                <tr>
+                    <td>{{ item.titulo.nome }}</td>
+                    <td>{{ item.titulo.get_tipo_display }}</td>
+                    <td>{{ item.titulo.genero }}</td>
+                    <td>{{ item.titulo.ano_lancamento|default:"–" }}</td>
+                    <td>{{ item.get_status_display }}</td>
+                    <td>{% if item.avaliacao %}{{ item.avaliacao.nota }}{% else %}–{% endif %}</td>
+                    <td>{{ item.adicionado_em|date:"d/m/Y" }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="7" class="text-center text-suave">Nenhum título encontrado para os filtros escolhidos.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

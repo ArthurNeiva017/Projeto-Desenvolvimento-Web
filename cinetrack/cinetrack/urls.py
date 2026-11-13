@@ -11,4 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('contas.urls')),
     path('biblioteca/', include('biblioteca.urls')),
+    path('buscar/', include('tmdb.urls')),
+    path('avaliacoes/', include('avaliacoes.urls')),
+    path('', include('relatorios.urls')),
 ]

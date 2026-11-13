@@ -31,7 +31,7 @@ class ContasTests(TestCase):
     def test_login_e_logout(self):
         User.objects.create_user(username='ana', password='SenhaForte#2026')
         resposta = self.client.post(reverse('login'), {'username': 'ana', 'password': 'SenhaForte#2026'})
-        self.assertRedirects(resposta, reverse('index'))
+        self.assertRedirects(resposta, reverse('dashboard'))
         resposta = self.client.post(reverse('logout'))
         self.assertRedirects(resposta, reverse('login'))
 

@@ -59,7 +59,7 @@ def login_view(request):
         if user is not None:
             login(request, user)  
             messages.success(request, f'Bem-vindo, {user.username}!')
-            return redirect('index')
+            return redirect('dashboard')
         messages.error(request, 'Usuário ou senha inválidos!')
         return render(request, 'contas/login.html', {'username': username})
 

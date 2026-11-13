@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     # Apps do CineTrack
     'contas',
     'biblioteca',
+    'tmdb',
+    'avaliacoes',
+    'relatorios',
 ]
 
 MIDDLEWARE = [
@@ -120,8 +123,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Autenticação
 # ---------------------------------------------------------------------------
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
+
+
+# ---------------------------------------------------------------------------
+# API externa TMDB (chave obtida em https://www.themoviedb.org/settings/api)
+# ---------------------------------------------------------------------------
+TMDB_API_KEY = os.getenv('TMDB_API_KEY', '')
 
 
 # ---------------------------------------------------------------------------
