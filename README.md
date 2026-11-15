@@ -113,14 +113,16 @@ As tecnologias previstas inicialmente são:
 
 | Camada | Tecnologia | Versão |
 |---|---|---|
-| Linguagem | Python | A definir |
-| Frontend | HTML, CSS e JavaScript | — |
-| Backend | Django | A definir |
-| API REST | Django REST Framework | A definir |
-| Banco de dados | SQLite / banco relacional compatível com produção | A definir |
-| API externa | TMDB API | — |
+| Linguagem | Python | 3.12+ |
+| Frontend | Django Templates, HTML, CSS e Bootstrap | Bootstrap 5.3 |
+| Backend | Django | 6.1 |
+| API REST | Django REST Framework | 3.18 |
+| Autenticação da API | djangorestframework-simplejwt (JWT) | 5.5 |
+| Documentação da API | drf-spectacular (Swagger / Redoc) | 0.30 |
+| Banco de dados | SQLite | — |
+| API externa | TMDB API (consumida com `requests`) | v3 |
 | Controle de versão | Git e GitHub | — |
-| Testes de API | Postman | — |
+| Testes | `unittest` do Django (`manage.py test`) | — |
 
 
 
@@ -141,17 +143,30 @@ As tecnologias previstas inicialmente são:
 - [Ex.: uso de API REST para separar cliente e servidor.]
 - [Ex.: persistência relacional porque os dados possuem relacionamentos bem definidos.]
 
-### Endpoints principais (quando houver API)
+### Apps do projeto Django
+
+| App | Responsabilidade |
+| --- | --- |
+| `contas` | Página inicial, cadastro, login e logout de usuários |
+| `biblioteca` | Models (Gênero, Título, Item da biblioteca, Avaliação), CRUD e busca na biblioteca |
+| `tmdb` | Integração com a API externa TMDB (busca e importação de títulos) |
+| `avaliacoes` | Registro de nota e comentário dos títulos |
+| `relatorios` | Dashboard, relatório com filtros, impressão e exportação CSV |
+| `api` | API REST própria (DRF, JWT e Swagger) |
+
+### Endpoints principais
 
 | Método | Rota | Descrição |
 | --- | --- | --- |
-| `POST` | `/api/[recurso]` | [Ex.: criar um registro] |
-| `GET` | `/api/[recurso]` | [Ex.: listar registros] |
-| `GET` | `/api/[recurso]/{id}` | [Ex.: obter um registro] |
-| `PUT` | `/api/[recurso]/{id}` | [Ex.: atualizar um registro] |
-| `DELETE` | `/api/[recurso]/{id}` | [Ex.: remover um registro] |
+| `GET` | `/api/v1/titulos/` | Lista o catálogo (filtros `busca`, `tipo`, `genero`, `ano`) |
+| `GET` | `/api/v1/generos/` | Lista os gêneros |
+| `GET` / `POST` | `/api/v1/biblioteca/` | Lista ou adiciona itens da biblioteca (JWT) |
+| `GET` / `PUT` / `PATCH` / `DELETE` | `/api/v1/biblioteca/{id}/` | Consulta, altera ou remove um item (JWT) |
+| `POST` | `/api/v1/biblioteca/{id}/avaliar/` | Avalia um item (JWT) |
+| `GET` | `/api/v1/biblioteca/relatorio/` | Indicadores da biblioteca (JWT) |
+| `POST` | `/api/token/` | Obtém o token JWT |
 
-Documentação completa da API: [link para Swagger, Postman ou `docs/api.md`]
+Documentação completa da API: [`docs/api/README.md`](docs/api/README.md) e Swagger em `/api/docs/swagger/`.
 
 ---
 
@@ -214,36 +229,37 @@ Documentação completa da API: [link para Swagger, Postman ou `docs/api.md`]
 
 ### Pré-requisitos
 
-- [Ex.: Git]
-- [Ex.: Python 3.12+]
-- [Ex.: Node.js 20+]
-- [Ex.: Docker]
+- Git
+- Python 3.12+
 
 ### Instalação e execução
 
 ```bash
 # 1. Clonar o repositório
-git clone [URL_DO_REPOSITORIO]
-cd [NOME_DA_PASTA]
+git clone https://github.com/ArthurNeiva017/Projeto-Desenvolvimento-Web.git
+cd Projeto-Desenvolvimento-Web/cinetrack
 
-# 2. Instalar dependências
-[comando de instalação]
+# 2. Criar e ativar o ambiente virtual
+python -m venv venv
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Linux/macOS
 
-# 3. Configurar variáveis de ambiente
-cp .env.example .env
-# edite o arquivo .env com as credenciais locais
+# 3. Instalar dependências
+pip install -r requirements.txt
 
-# 4. Executar a aplicação
-[comando de execução]
+# 4. Configurar variáveis de ambiente
+copy .env.example .env       # Windows (Linux/macOS: cp .env.example .env)
+# edite o .env: SECRET_KEY e TMDB_API_KEY
+
+# 5. Criar o banco e um administrador
+python manage.py migrate
+python manage.py createsuperuser
+
+# 6. Executar a aplicação
+python manage.py runserver
 ```
 
-**Acesso local:** [Ex.: http://localhost:3000]
-
-### Implantação (quando houver)
-
-- **Ambiente:** [Ex.: Render, Railway, Vercel, servidor da instituição]
-- **URL de produção:** [https://...]
-- **Observações:** [Ex.: é necessário configurar as variáveis de ambiente no painel do provedor]
+**Acesso local:** http://127.0.0.1:8000 (Swagger: http://127.0.0.1:8000/api/docs/swagger/)
 
 ---
 
@@ -253,9 +269,8 @@ cp .env.example .env
 
 | Variável | Obrigatória | Descrição | Exemplo |
 | --- | --- | --- | --- |
-| `PORT` | Sim | Porta da aplicação | `3000` |
-| `DATABASE_URL` | Sim | Conexão com o banco | `postgresql://user:senha@localhost:5432/app` |
-| `SECRET_KEY` | Sim | Chave de sessão / JWT | `[gerar localmente]` |
+| `SECRET_KEY` | Sim | Chave de sessão e de assinatura do JWT | `[gerar localmente]` |
+| `TMDB_API_KEY` | Sim | Chave da API do TMDB | `[obter em themoviedb.org]` |
 
 Credenciais reais devem ficar apenas no arquivo `.env` (não versionado).
 
@@ -266,16 +281,16 @@ Credenciais reais devem ficar apenas no arquivo `.env` (não versionado).
 *Descreva como executar os testes e o que eles cobrem.*
 
 ```bash
-[comando para executar os testes]
+cd cinetrack
+python manage.py test
 ```
 
 | Tipo | Ferramenta | O que verifica |
 | --- | --- | --- |
-| Unitários | [Ex.: pytest / JUnit / Jest] | [Ex.: regras de negócio isoladas] |
-| Integração | [Ex.: ...] | [Ex.: API e banco de dados] |
-| Manuais | [Ex.: checklist em `docs/`] | [Ex.: fluxos principais da interface] |
-
-**Cobertura atual:** [Ex.: 70% / não medida]
+| Views e regras de negócio | `django.test.TestCase` | Cadastro, login, CRUD, busca, avaliação, relatório e CSV |
+| Integração externa | `unittest.mock` | TMDB: sucesso, timeout, falha de conexão, limite (429) e resposta inválida |
+| API REST | `rest_framework.test.APITestCase` | JWT, CRUD, filtros, paginação, códigos HTTP e isolamento entre usuários |
+| Segurança | Bandit, pip-audit e OWASP ZAP | Ver [`docs/seguranca/`](docs/seguranca/README.md) |
 
 ---
 

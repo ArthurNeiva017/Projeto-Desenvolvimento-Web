@@ -39,12 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Bibliotecas de terceiros
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     # Apps do CineTrack
     'contas',
     'biblioteca',
     'tmdb',
     'avaliacoes',
     'relatorios',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -131,6 +137,56 @@ LOGOUT_REDIRECT_URL = 'login'
 # API externa TMDB (chave obtida em https://www.themoviedb.org/settings/api)
 # ---------------------------------------------------------------------------
 TMDB_API_KEY = os.getenv('TMDB_API_KEY', '')
+
+
+# ---------------------------------------------------------------------------
+# API REST (Django REST Framework + JWT + Swagger)
+# ---------------------------------------------------------------------------
+from datetime import timedelta  # noqa: E402
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    # Define o drf-spectacular como a classe geradora de esquema padrão
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # Paginação: 10 registros por página (?page=2)
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    # Rate limiting: retorna HTTP 429 quando o limite é ultrapassado
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '60/minute',
+        'user': '120/minute',
+    },
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+# Configurações customizadas do Swagger/OpenAPI
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API do CineTrack',
+    'DESCRIPTION': (
+        'API REST do CineTrack. As rotas de catálogo (gêneros e títulos) são públicas e somente leitura. '
+        'As rotas de biblioteca exigem autenticação JWT: obtenha o token em POST /api/token/ e envie '
+        'o cabeçalho Authorization: Bearer <access>.'
+    ),
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+}
 
 
 # ---------------------------------------------------------------------------
