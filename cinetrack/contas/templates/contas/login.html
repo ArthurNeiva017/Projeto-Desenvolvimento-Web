@@ -1,16 +1,21 @@
 {% extends "base.html" %}
+{# Página de login. O formulário é enviado para a view login_view (contas/views.py) #}
 {% block titulo %}Entrar{% endblock %}
 {% block conteudo %}
 <div class="form-container ct-card p-4 p-md-5">
     <h2 class="mb-4">Entrar</h2>
+    {# Sem "action": o formulário é enviado para a própria página (/login/) via POST #}
     <form method="post">
+        {# Token de proteção contra ataques CSRF (obrigatório em formulários POST) #}
         {% csrf_token %}
         <div class="mb-3">
             <label for="username" class="form-label">Usuário</label>
+            {# Se o login falhar, o usuário digitado volta preenchido; |default:'' evita mostrar "None" #}
             <input type="text" id="username" name="username" class="form-control" value="{{ username|default:'' }}" required autofocus>
         </div>
         <div class="mb-4">
             <label for="password" class="form-label">Senha</label>
+            {# A senha nunca é devolvida preenchida, por segurança #}
             <input type="password" id="password" name="password" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-ct w-100">Entrar</button>

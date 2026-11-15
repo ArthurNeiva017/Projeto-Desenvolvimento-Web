@@ -13,4 +13,6 @@ from django.core.asgi import get_asgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cinetrack.settings')
 
+# Ponto de entrada usado por servidores ASGI para executar o projeto em produção.
+# Para rodar localmente usamos "python manage.py runserver", que não precisa deste arquivo.
 application = get_asgi_application()

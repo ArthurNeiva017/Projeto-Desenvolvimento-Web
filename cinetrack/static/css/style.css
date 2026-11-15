@@ -7,29 +7,40 @@
      --ct-secundaria #2ec4b6  (azul-petróleo, ações secundárias)
      --ct-texto      #e8e9ed
    Tipografia: Poppins (títulos) e Inter (texto)
+
+   Este arquivo é carregado DEPOIS do Bootstrap (ver base.html),
+   então as regras daqui complementam/sobrescrevem as do Bootstrap.
+   O prefixo "ct-" (CineTrack) identifica as classes criadas pelo grupo.
    ========================================================== */
+
+/* Variáveis CSS (custom properties): as cores são definidas uma única vez
+   e reutilizadas com var(--nome). Para mudar a paleta, basta alterar aqui. */
 :root {
     --ct-fundo: #12141c;
     --ct-superficie: #1c1f2b;
     --ct-borda: #2b2f3f;
     --ct-primaria: #f5b301;
-    --ct-primaria-escura: #c98f00;
+    --ct-primaria-escura: #c98f00;   /* usada no efeito hover dos botões/links */
     --ct-secundaria: #2ec4b6;
     --ct-texto: #e8e9ed;
-    --ct-texto-suave: #a3a7b7;
+    --ct-texto-suave: #a3a7b7;       /* textos secundários (descrições, datas) */
 }
 
+/* Estilo geral da página */
 body {
     background-color: var(--ct-fundo);
     color: var(--ct-texto);
+    /* Se a fonte Inter não carregar, usa a fonte do sistema */
     font-family: 'Inter', system-ui, sans-serif;
 }
 
+/* Títulos e nome da marca usam a fonte Poppins em negrito */
 h1, h2, h3, h4, .ct-brand {
     font-family: 'Poppins', 'Inter', sans-serif;
     font-weight: 700;
 }
 
+/* Links na cor âmbar; ficam mais escuros ao passar o mouse (:hover) */
 a { color: var(--ct-primaria); }
 a:hover { color: var(--ct-primaria-escura); }
 
@@ -41,13 +52,14 @@ a:hover { color: var(--ct-primaria-escura); }
 .ct-navbar .nav-link { color: var(--ct-texto); }
 .ct-navbar .nav-link:hover { color: var(--ct-primaria); }
 .ct-brand { font-size: 1.35rem; color: var(--ct-texto); }
+/* A parte "Track" do nome (dentro de um <span>) fica em âmbar */
 .ct-brand span { color: var(--ct-primaria); }
 
 /* Botão principal */
 .btn-ct {
     background-color: var(--ct-primaria);
     border-color: var(--ct-primaria);
-    color: #1a1a1a;
+    color: #1a1a1a;   /* texto escuro para ter bom contraste com o âmbar */
     font-weight: 600;
 }
 .btn-ct:hover, .btn-ct:focus {
@@ -55,6 +67,7 @@ a:hover { color: var(--ct-primaria-escura); }
     border-color: var(--ct-primaria-escura);
     color: #1a1a1a;
 }
+/* Botão secundário: só a borda colorida; ao passar o mouse fica preenchido */
 .btn-ct-secundario {
     border-color: var(--ct-secundaria);
     color: var(--ct-secundaria);
@@ -68,8 +81,9 @@ a:hover { color: var(--ct-primaria-escura); }
 .ct-card {
     background-color: var(--ct-superficie);
     border: 1px solid var(--ct-borda);
-    border-radius: 12px;
+    border-radius: 12px;   /* cantos arredondados */
 }
+/* Seção de destaque da página inicial, com fundo em degradê diagonal (135 graus) */
 .ct-hero {
     background: linear-gradient(135deg, var(--ct-superficie), #262a3a);
     border: 1px solid var(--ct-borda);
@@ -78,19 +92,22 @@ a:hover { color: var(--ct-primaria-escura); }
 .text-suave { color: var(--ct-texto-suave); }
 
 /* Formulários */
+/* Limita a largura dos formulários e os centraliza na página (margin: 0 auto) */
 .form-container {
     max-width: 560px;
     margin: 0 auto;
 }
+/* Campo em foco (selecionado) ganha borda e "brilho" âmbar */
 .form-control:focus, .form-select:focus {
     border-color: var(--ct-primaria);
     box-shadow: 0 0 0 .2rem rgba(245, 179, 1, .25);
 }
+/* .errorlist é a classe que o Django usa na lista de erros dos formulários */
 .errorlist {
-    list-style: none;
+    list-style: none;   /* remove as bolinhas da lista */
     padding-left: 0;
     margin: .25rem 0 0;
-    color: #ff6b6b;
+    color: #ff6b6b;     /* vermelho para indicar erro */
     font-size: .875rem;
 }
 
@@ -107,11 +124,12 @@ a:hover { color: var(--ct-primaria-escura); }
 /* Pôster dos títulos */
 .ct-poster {
     width: 100%;
-    aspect-ratio: 2 / 3;
-    object-fit: cover;
+    aspect-ratio: 2 / 3;   /* proporção padrão de pôster de cinema (largura 2 : altura 3) */
+    object-fit: cover;     /* preenche o espaço cortando as sobras, sem distorcer a imagem */
     border-radius: 8px;
     background-color: var(--ct-borda);
 }
+/* Quadro exibido quando o título não tem pôster: texto centralizado com flexbox */
 .ct-poster-vazio {
     display: flex;
     align-items: center;
@@ -121,13 +139,17 @@ a:hover { color: var(--ct-primaria-escura); }
 }
 
 /* Etiquetas de status */
+/* O nome da classe combina com o valor salvo no banco: badge-{{ item.status }} no template */
 .badge-quero_assistir { background-color: #4c5674; }
 .badge-assistindo { background-color: var(--ct-secundaria); color: #12141c; }
 .badge-assistido { background-color: var(--ct-primaria); color: #12141c; }
 
 /* Impressão (relatórios) */
+/* Regras aplicadas SOMENTE ao imprimir (ou salvar em PDF) */
 @media print {
+    /* Esconde menu, rodapé, botões e filtros */
     .ct-navbar, .ct-footer, .no-print, .messages { display: none !important; }
+    /* Fundo branco e texto preto para economizar tinta e ficar legível no papel */
     body, .ct-card { background: #fff !important; color: #000 !important; }
     .table { color: #000 !important; }
 }

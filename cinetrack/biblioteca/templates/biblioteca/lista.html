@@ -1,6 +1,8 @@
 {% extends "base.html" %}
+{# Lista de itens da biblioteca do usuário, com busca e filtros (UC03 e UC05) #}
 {% block titulo %}Minha biblioteca{% endblock %}
 {% block conteudo %}
+{# Cabeçalho da página com os botões para adicionar títulos #}
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <h1 class="h2 mb-0">Minha biblioteca</h1>
     <div class="d-flex gap-2">
@@ -10,8 +12,10 @@
 </div>
 
 <!-- Busca e filtros (UC05) -->
+{# method="get": os filtros vão na URL (ex.: ?q=matrix&status=assistido), permitindo salvar/compartilhar a busca #}
 <form method="get" class="ct-card p-3 mb-4">
     <div class="row g-2 align-items-end">
+        {# Cada campo do BuscaForm é renderizado separadamente para controlar o layout #}
         <div class="col-12 col-md-4">
             {{ form.q.label_tag }}
             {{ form.q }}
@@ -30,19 +34,23 @@
         </div>
         <div class="col-12 col-md-2 d-flex gap-2">
             <button type="submit" class="btn btn-ct flex-grow-1">Buscar</button>
+            {# O botão "Limpar" só aparece quando há algum filtro aplicado #}
             {% if filtrando %}<a href="{% url 'lista_biblioteca' %}" class="btn btn-outline-light">Limpar</a>{% endif %}
         </div>
     </div>
 </form>
 
+{# |length conta os itens; |pluralize adiciona "s" quando a quantidade é diferente de 1 #}
 <p class="text-suave">{{ itens|length }} título{{ itens|length|pluralize }} encontrado{{ itens|length|pluralize }}.</p>
 
+{# Grade de cartões: 2 por linha no celular, 3 no tablet e 4 no computador #}
 <div class="row g-3">
     {% for item in itens %}
         <div class="col-6 col-md-4 col-lg-3">
             <div class="ct-card p-2 h-100 d-flex flex-column">
                 <a href="{% url 'detalhe_item' item.id %}">
                     {% if item.titulo.poster_url %}
+                        {# loading="lazy": a imagem só é carregada quando estiver perto de aparecer na tela #}
                         <img src="{{ item.titulo.poster_url }}" alt="Pôster de {{ item.titulo.nome }}" class="ct-poster" loading="lazy">
                     {% else %}
                         <div class="ct-poster ct-poster-vazio">Sem pôster</div>
@@ -51,12 +59,14 @@
                 <div class="pt-2 d-flex flex-column flex-grow-1">
                     <a href="{% url 'detalhe_item' item.id %}" class="fw-semibold text-decoration-none text-reset">{{ item.titulo.nome }}</a>
                     <small class="text-suave">{{ item.titulo.get_tipo_display }}{% if item.titulo.ano_lancamento %} · {{ item.titulo.ano_lancamento }}{% endif %} · {{ item.titulo.genero }}</small>
+                    {# mt-auto empurra a etiqueta de status para o fim do cartão #}
                     <div class="mt-auto pt-2">
                         <span class="badge badge-{{ item.status }}">{{ item.get_status_display }}</span>
                     </div>
                 </div>
             </div>
         </div>
+    {# {% empty %} é exibido quando a lista não tem nenhum item #}
     {% empty %}
         <div class="col-12">
             <div class="ct-card p-4 text-center">

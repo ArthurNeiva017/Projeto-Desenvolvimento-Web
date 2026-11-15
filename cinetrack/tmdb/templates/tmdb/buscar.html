@@ -1,14 +1,17 @@
 {% extends "base.html" %}
+{# Tela de busca de títulos (UC05). Mostra resultados do catálogo local e da API do TMDB #}
 {% block titulo %}Buscar títulos{% endblock %}
 {% block conteudo %}
 <h1 class="h2 mb-3">Buscar filmes e séries</h1>
 <p class="text-suave">Pesquise no catálogo do CineTrack e no TMDB e adicione o título à sua biblioteca.</p>
 
+{# Formulário de busca (BuscaTMDBForm), enviado por GET #}
 <form method="get" class="ct-card p-3 mb-4" novalidate>
     <div class="row g-2 align-items-end">
         <div class="col-12 col-md-6">
             {{ form.q.label_tag }}
             {{ form.q }}
+            {# Erros de validação, ex.: "Digite pelo menos 2 caracteres." #}
             {{ form.q.errors }}
         </div>
         <div class="col-8 col-md-3">
@@ -21,7 +24,9 @@
     </div>
 </form>
 
+{# Só mostra resultados depois que uma busca válida foi feita #}
 {% if buscou %}
+    {# ===== 1) Resultados que já existem no banco do CineTrack ===== #}
     {% if resultados_locais %}
         <h2 class="h5 mb-3">No catálogo do CineTrack</h2>
         <div class="row g-3 mb-4">
@@ -37,12 +42,15 @@
                             <strong>{{ titulo.nome }}</strong>
                             <small class="text-suave">{{ titulo.get_tipo_display }}{% if titulo.ano_lancamento %} · {{ titulo.ano_lancamento }}{% endif %}</small>
                             <div class="mt-auto pt-2">
+                                {# na_biblioteca foi marcado na view buscar_tmdb #}
                                 {% if titulo.na_biblioteca %}
                                     <span class="badge text-bg-success">Já está na biblioteca</span>
                                 {% else %}
+                                    {# Título local: envia o id do banco para a view adicionar_do_catalogo #}
                                     <form method="post" action="{% url 'adicionar_do_catalogo' %}" class="d-flex flex-column gap-1">
                                         {% csrf_token %}
                                         <input type="hidden" name="titulo_id" value="{{ titulo.id }}">
+                                        {# Insere o select de status (template _status_select.html) #}
                                         {% include "tmdb/_status_select.html" %}
                                         <button type="submit" class="btn btn-ct btn-sm">Adicionar</button>
                                     </form>
@@ -55,6 +63,7 @@
         </div>
     {% endif %}
 
+    {# ===== 2) Resultados vindos da API do TMDB (só se a API respondeu sem erro) ===== #}
     {% if not erro_tmdb %}
         <h2 class="h5 mb-3">Resultados do TMDB</h2>
         <div class="row g-3">
@@ -68,11 +77,13 @@
                         {% endif %}
                         <div class="pt-2 d-flex flex-column flex-grow-1">
                             <strong>{{ r.nome }}</strong>
+                            {# Aqui "r" é um dicionário (não um model), então montamos o texto do tipo manualmente #}
                             <small class="text-suave">{% if r.tipo == 'filme' %}Filme{% else %}Série{% endif %}{% if r.ano_lancamento %} · {{ r.ano_lancamento }}{% endif %}</small>
                             <div class="mt-auto pt-2">
                                 {% if r.na_biblioteca %}
                                     <span class="badge text-bg-success">Já está na biblioteca</span>
                                 {% else %}
+                                    {# Título do TMDB: envia o ID do TMDB e o tipo (campos ocultos) para a view importar_tmdb #}
                                     <form method="post" action="{% url 'importar_tmdb' %}" class="d-flex flex-column gap-1">
                                         {% csrf_token %}
                                         <input type="hidden" name="tmdb_id" value="{{ r.tmdb_id }}">
@@ -98,6 +109,7 @@
             {% endfor %}
         </div>
     {% else %}
+        {# TMDB fora do ar (UC05 - E1): avisa e oferece o cadastro manual #}
         <div class="ct-card p-4 text-center">
             <p class="mb-2">Os resultados do TMDB estão indisponíveis agora.</p>
             <a href="{% url 'criar_item' %}" class="btn btn-ct">Cadastrar manualmente</a>

@@ -1,3 +1,3 @@
 from django.contrib import admin
 
-# Register your models here.
+# Nada a registrar aqui: o model User já aparece no painel admin por padrão.

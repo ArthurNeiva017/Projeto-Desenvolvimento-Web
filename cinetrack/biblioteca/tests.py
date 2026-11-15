@@ -1,3 +1,7 @@
+# Testes automatizados do app biblioteca (listagem, busca, cadastro, edição e exclusão).
+# Executar com: python manage.py test
+# Cada método que começa com "test_" é um caso de teste. O Django cria um banco
+# de dados temporário só para os testes, que é apagado no final.
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
@@ -6,6 +10,7 @@ from .models import Avaliacao, Genero, ItemBiblioteca, Titulo
 
 
 class BibliotecaTests(TestCase):
+    # setUp roda ANTES de cada teste: prepara os dados necessários
     def setUp(self):
         self.usuario = User.objects.create_user(username='ana', password='SenhaForte#2026')
         self.outro = User.objects.create_user(username='bia', password='SenhaForte#2026')
@@ -14,12 +19,14 @@ class BibliotecaTests(TestCase):
         self.item = ItemBiblioteca.objects.create(usuario=self.usuario, titulo=self.titulo)
         self.client.login(username='ana', password='SenhaForte#2026')
 
+    # Teste: Sem login, a lista redireciona (302) para a página de login
     def test_lista_exige_login(self):
         self.client.logout()
         resposta = self.client.get(reverse('lista_biblioteca'))
         self.assertEqual(resposta.status_code, 302)
         self.assertIn(reverse('login'), resposta.url)
 
+    # Teste: Cada usuário vê apenas os próprios itens, nunca os de outra pessoa
     def test_lista_mostra_apenas_itens_do_usuario(self):
         outro_titulo = Titulo.objects.create(nome='Bacurau', tipo='filme', genero=self.genero)
         ItemBiblioteca.objects.create(usuario=self.outro, titulo=outro_titulo)
@@ -27,12 +34,14 @@ class BibliotecaTests(TestCase):
         self.assertContains(resposta, 'Central do Brasil')
         self.assertNotContains(resposta, 'Bacurau')
 
+    # Teste: Os filtros de nome e status da busca funcionam
     def test_busca_por_nome_e_status(self):
         resposta = self.client.get(reverse('lista_biblioteca'), {'q': 'central', 'status': 'quero_assistir'})
         self.assertContains(resposta, 'Central do Brasil')
         resposta = self.client.get(reverse('lista_biblioteca'), {'q': 'central', 'status': 'assistido'})
         self.assertNotContains(resposta, 'Central do Brasil')
 
+    # Teste: Cadastro manual cria o título e o item na biblioteca com o status escolhido
     def test_criar_item(self):
         resposta = self.client.post(reverse('criar_item'), {
             'nome': 'Cidade de Deus', 'tipo': 'filme', 'genero': self.genero.id,
@@ -41,6 +50,7 @@ class BibliotecaTests(TestCase):
         self.assertRedirects(resposta, reverse('lista_biblioteca'))
         self.assertTrue(ItemBiblioteca.objects.filter(usuario=self.usuario, titulo__nome='Cidade de Deus', status='assistido').exists())
 
+    # Teste: Dados inválidos (nome curto e ano 1500) mostram as mensagens de validação
     def test_criar_item_invalido(self):
         resposta = self.client.post(reverse('criar_item'), {
             'nome': 'X', 'tipo': 'filme', 'genero': self.genero.id, 'ano_lancamento': 1500, 'status': 'assistido',
@@ -49,6 +59,7 @@ class BibliotecaTests(TestCase):
         self.assertContains(resposta, 'pelo menos 2 caracteres')
         self.assertContains(resposta, 'Informe um ano entre 1888')
 
+    # Teste: Editar um título manual altera o status do item
     def test_editar_item_manual(self):
         resposta = self.client.post(reverse('editar_item', args=[self.item.id]), {
             'nome': 'Central do Brasil', 'tipo': 'filme', 'genero': self.genero.id,
@@ -58,6 +69,7 @@ class BibliotecaTests(TestCase):
         self.item.refresh_from_db()
         self.assertEqual(self.item.status, 'assistindo')
 
+    # Teste: Título importado do TMDB: só o status muda, o nome não pode ser editado
     def test_titulo_do_tmdb_so_altera_status(self):
         importado = Titulo.objects.create(nome='Duna', tipo='filme', genero=self.genero, tmdb_id=438631)
         item = ItemBiblioteca.objects.create(usuario=self.usuario, titulo=importado)
@@ -67,12 +79,14 @@ class BibliotecaTests(TestCase):
         self.assertEqual(importado.nome, 'Duna')
         self.assertEqual(item.status, 'assistido')
 
+    # Teste: Acessar/excluir item de outro usuário retorna 404
     def test_nao_acessa_item_de_outro_usuario(self):
         item_outro = ItemBiblioteca.objects.create(
             usuario=self.outro, titulo=Titulo.objects.create(nome='Aquarius', tipo='filme', genero=self.genero))
         self.assertEqual(self.client.get(reverse('detalhe_item', args=[item_outro.id])).status_code, 404)
         self.assertEqual(self.client.post(reverse('excluir_item', args=[item_outro.id])).status_code, 404)
 
+    # Teste: Excluir o item apaga a avaliação junto (CASCADE), mas mantém o título no catálogo
     def test_excluir_item_remove_avaliacao(self):
         Avaliacao.objects.create(item_biblioteca=self.item, nota=9)
         resposta = self.client.post(reverse('excluir_item', args=[self.item.id]))

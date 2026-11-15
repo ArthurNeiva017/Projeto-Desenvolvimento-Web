@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{# Dashboard (UC09): resumo visual da biblioteca do usuário. Os dados vêm da view dashboard (relatorios/views.py) #}
 {% block titulo %}Dashboard{% endblock %}
 {% block conteudo %}
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
@@ -7,6 +8,7 @@
 </div>
 
 <!-- Indicadores principais -->
+{# "ind" é o dicionário de indicadores calculado pela função _indicadores() #}
 <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3"><div class="ct-card p-3 h-100">
         <div class="text-suave small">Títulos na biblioteca</div><div class="display-6 fw-bold">{{ ind.total }}</div>
@@ -18,29 +20,35 @@
         <div class="text-suave small">Assistidos</div><div class="display-6 fw-bold">{{ ind.assistido }}</div>
     </div></div>
     <div class="col-6 col-lg-3"><div class="ct-card p-3 h-100">
+        {# Quando ainda não há avaliações, nota_media é None e mostramos um traço #}
         <div class="text-suave small">Nota média</div><div class="display-6 fw-bold">{{ ind.nota_media|default:"–" }}</div>
     </div></div>
 </div>
 
 <div class="row g-3">
+    {# Gráfico de barras por status, feito com as barras de progresso do Bootstrap #}
     <div class="col-lg-6">
         <div class="ct-card p-4 h-100">
             <h2 class="h5 mb-3">Por status</h2>
             {% for s in status_grafico %}
                 <div class="mb-3">
                     <div class="d-flex justify-content-between small"><span>{{ s.rotulo }}</span><span>{{ s.qtd }}</span></div>
+                    {# Atributos aria-*: acessibilidade para leitores de tela #}
                     <div class="progress" role="progressbar" aria-label="{{ s.rotulo }}" aria-valuenow="{{ s.pct }}" aria-valuemin="0" aria-valuemax="100">
+                        {# A largura da barra é a porcentagem calculada na view; a cor vem da classe badge-<status> #}
                         <div class="progress-bar badge-{{ s.valor }}" style="width: {{ s.pct }}%"></div>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
+    {# Top 5 gêneros #}
     <div class="col-lg-6">
         <div class="ct-card p-4 h-100">
             <h2 class="h5 mb-3">Gêneros mais presentes</h2>
             <ul class="list-group list-group-flush">
                 {% for g in por_genero %}
+                    {# g.titulo__genero__nome e g.qtd são as colunas geradas pelo values().annotate() na view #}
                     <li class="list-group-item bg-transparent d-flex justify-content-between">{{ g.titulo__genero__nome }}<span class="badge text-bg-secondary">{{ g.qtd }}</span></li>
                 {% empty %}
                     <li class="list-group-item bg-transparent text-suave">Nenhum título cadastrado.</li>
@@ -48,6 +56,7 @@
             </ul>
         </div>
     </div>
+    {# Top 5 títulos com as maiores notas #}
     <div class="col-lg-6">
         <div class="ct-card p-4 h-100">
             <h2 class="h5 mb-3">Mais bem avaliados</h2>
@@ -63,6 +72,7 @@
             </ul>
         </div>
     </div>
+    {# Os 5 últimos itens adicionados #}
     <div class="col-lg-6">
         <div class="ct-card p-4 h-100">
             <h2 class="h5 mb-3">Adicionados recentemente</h2>

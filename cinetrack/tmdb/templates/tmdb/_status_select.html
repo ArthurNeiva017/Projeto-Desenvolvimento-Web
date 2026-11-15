@@ -1,4 +1,7 @@
+{# Trecho reutilizável (o "_" no nome indica que é um pedaço incluído em outros templates, não uma página). #}
+{# Monta o <select> de status usando as opções de ItemBiblioteca.STATUS_CHOICES, enviadas pela view #}
 <select name="status" class="form-select form-select-sm" aria-label="Status inicial">
+    {# Cada opção é uma tupla (valor, rótulo), ex.: ('assistido', 'Assistido') #}
     {% for valor, rotulo in status_choices %}
         <option value="{{ valor }}">{{ rotulo }}</option>
     {% endfor %}

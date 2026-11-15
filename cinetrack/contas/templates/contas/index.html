@@ -1,8 +1,11 @@
 {% extends "base.html" %}
+{# Página inicial (landing page). Herda o layout do base.html #}
 {% load static %}
 {% block titulo %}Início{% endblock %}
 {% block conteudo %}
+{# Seção de destaque (hero) com a apresentação do sistema #}
 <section class="ct-hero p-4 p-md-5 mb-4">
+    {# Sistema de grid do Bootstrap: "row" é a linha e "col-md-8"/"col-md-4" dividem a largura em 12 colunas #}
     <div class="row align-items-center g-4">
         <div class="col-md-8">
             <h1 class="display-5">Sua biblioteca de filmes e séries em um só lugar</h1>
@@ -10,6 +13,7 @@
                 Organize o que você quer assistir, acompanhe o que está assistindo e
                 avalie o que já viu. Busque títulos no TMDB e veja relatórios da sua biblioteca.
             </p>
+            {# O conteúdo muda conforme o usuário estar logado ou não #}
             {% if user.is_authenticated %}
                 <p class="mt-4">Olá, <strong>{{ user.username }}</strong>!</p>
                 <a href="{% url 'lista_biblioteca' %}" class="btn btn-ct btn-lg">Abrir minha biblioteca</a>
@@ -26,6 +30,7 @@
     </div>
 </section>
 
+{# Três cartões explicando as funcionalidades principais #}
 <section class="row g-3">
     <div class="col-md-4">
         <div class="ct-card p-4 h-100">
